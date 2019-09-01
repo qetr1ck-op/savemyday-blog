@@ -1,7 +1,6 @@
 const path = require(`path`)
 
 const createPokemonPages = async ({ actions }) => {
-  console.log(actions)
   const allPokemon = await Promise.resolve([
     { name: "pikachu" },
     { name: "charizard" },
