@@ -4,7 +4,14 @@ import { graphql } from "gatsby"
 export default function Template({
   data, // this prop will be injected by the GraphQL query below.
 }) {
-  const { markdownRemark } = data // data.markdownRemark holds our post data
+  console.log("------")
+  console.log(data)
+  const { markdownRemark } = data
+
+  if (!markdownRemark) {
+    return null
+  }
+
   const { frontmatter, html } = markdownRemark
   return (
     <div className="blog-post-container">
