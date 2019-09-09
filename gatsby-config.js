@@ -1,4 +1,4 @@
-const { join } = require("path")
+const { join, resolve } = require("path")
 
 module.exports = {
   siteMetadata: {
@@ -29,14 +29,14 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: join(__dirname, "src", "images"),
+        path: join(__dirname, "src/images"),
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `pages`,
-        path: join(__dirname, "src", "static", "pages"),
+        path: join(__dirname, "src/pages/blog"),
       },
     },
   ],
