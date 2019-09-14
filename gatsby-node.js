@@ -80,16 +80,14 @@ const createBlogPostPages = async ({ actions, graphql, reporter }) => {
         sort: { order: DESC, fields: [frontmatter___date] }
         limit: 1000
       ) {
-        edges {
-          node {
-            frontmatter {
-              path
-              title
-              date
-            }
-            fields {
-              slug
-            }
+        nodes {
+          frontmatter {
+            path
+            title
+            date
+          }
+          fields {
+            slug
           }
         }
       }
@@ -100,9 +98,9 @@ const createBlogPostPages = async ({ actions, graphql, reporter }) => {
     reporter.panicOnBuild(`Error while running GraphQL query.`)
     return
   }
-  const pages = result.data.allMarkdownRemark.edges
+  const pages = result.data.allMarkdownRemark.nodes
 
-  pages.forEach(({ node }) => {
+  pages.forEach(node => {
     createPage({
       path: `blog/page${node.fields.slug}`,
       component: blogPostTemplate,
