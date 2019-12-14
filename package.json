@@ -5,7 +5,8 @@
   "version": "0.1.0",
   "author": "",
   "dependencies": {
-    "gatsby": "^2.13.6",
+    "fuse.js": "3.4.5",
+    "gatsby": "^2.18.11",
     "gatsby-image": "^2.2.4",
     "gatsby-plugin-manifest": "^2.2.1",
     "gatsby-plugin-netlify-cms": "^4.1.11",
@@ -15,14 +16,14 @@
     "gatsby-source-filesystem": "^2.1.14",
     "gatsby-transformer-remark": "^2.6.18",
     "gatsby-transformer-sharp": "^2.2.1",
+    "netlify-cms-app": "2.9.7",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1",
-    "netlify-cms-app": "2.9.7",
-    "fuse.js": "3.4.5"
+    "react-helmet": "^5.2.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "prettier": "^1.18.2"
   },
   "keywords": [
@@ -31,7 +32,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "gatsby develop",
+    "develop": "nodemon --watch gatsby-* --exec 'gatsby develop'",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
