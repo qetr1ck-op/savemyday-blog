@@ -11,3 +11,5 @@ tags:
 # Typescript
 
 ## 🐍Theory
+
+trigger netify build?
