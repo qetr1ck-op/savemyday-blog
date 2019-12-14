@@ -1,33 +1,9 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-const createPokemonPages = async ({ actions }) => {
-  const allPokemon = await Promise.resolve([
-    { name: "pikachu" },
-    { name: "charizard" },
-    { name: "squirtle" },
-  ])
-  // Create a page that lists all Pokémon.
-  actions.createPage({
-    path: `/all-pokemon`,
-    component: path.resolve("./src/components/templates/all-pokemon.js"),
-    context: { allPokemon },
-  })
-  // Create a page for each Pokémon.
-  allPokemon.forEach(pokemon => {
-    actions.createPage({
-      path: `/pokemon/${pokemon.name}/`,
-      component: path.resolve("./src/components/templates/pokemon.js"),
-      context: { pokemon },
-    })
-  })
-}
-
 const createBlogListPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
-  const blogPostListTemplate = path.resolve(
-    `src/components/templates/blog/blog-list.template.jsx`
-  )
+  const blogPostListTemplate = path.resolve(`src/components/pages/blog-all.jsx`)
   const result = await graphql(
     `
       {
@@ -71,9 +47,7 @@ const createBlogListPages = async ({ actions, graphql, reporter }) => {
 
 const createBlogPostPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions
-  const blogPostTemplate = path.resolve(
-    `src/components/templates/blog/blog.template.jsx`
-  )
+  const blogPostTemplate = path.resolve(`src/components/pages/blog-single.jsx`)
   const result = await graphql(`
     {
       allMarkdownRemark(
@@ -99,34 +73,89 @@ const createBlogPostPages = async ({ actions, graphql, reporter }) => {
     return
   }
   const pages = result.data.allMarkdownRemark.nodes
+  const pageRelativePath = "blog"
 
   pages.forEach(node => {
     createPage({
-      path: `blog/page${node.fields.slug}`,
+      path: `${pageRelativePath}/${node.frontmatter.path}`,
       component: blogPostTemplate,
       context: {},
     })
   })
 }
 
+// TODO: copy-pasta
+const createFomoPages = async ({ actions, graphql, reporter }) => {
+  const { createPage } = actions
+  // TODO: own fomo template
+  const blogPostTemplate = path.resolve(`src/components/pages/fomo-single.jsx`)
+  const result = await graphql(`
+    {
+      allMarkdownRemark(
+        sort: { order: DESC, fields: [frontmatter___date] }
+        limit: 1000
+        filter: { fields: { source_type: { eq: "fomo-pages" } } }
+      ) {
+        nodes {
+          frontmatter {
+            title
+            date
+            path
+          }
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  `)
+  // Handle errors
+  if (result.errors) {
+    reporter.panicOnBuild(`Error while running GraphQL query.`)
+    return
+  }
+  const pages = result.data.allMarkdownRemark.nodes
+  const pageRelativePath = "fomo"
+
+  pages.forEach(node => {
+    createPage({
+      path: `${pageRelativePath}/${node.frontmatter.path}`,
+      component: blogPostTemplate,
+      context: {
+        slug: node.fields.slug,
+      },
+    })
+  })
+}
+
 exports.createPages = async options => {
   await Promise.all([
-    createPokemonPages(options),
     createBlogListPages(options),
     createBlogPostPages(options),
+    createFomoPages(options),
   ])
 }
 
+// https://www.gatsbyjs.org/docs/node-apis/#onCreatePage
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
     const slug = createFilePath({ node, getNode, basePath: `pages` })
+    const parentNode = getNode(node.parent)
 
+    // https://www.gatsbyjs.org/docs/creating-slugs-for-pages
     createNodeField({
       node,
       name: `slug`,
       value: slug,
+    })
+
+    // https://github.com/gatsbyjs/gatsby/issues/1634#issuecomment-388899348
+    createNodeField({
+      node,
+      name: `source-type`,
+      value: parentNode.sourceInstanceName,
     })
   }
 }

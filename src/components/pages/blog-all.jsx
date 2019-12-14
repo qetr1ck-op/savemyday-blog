@@ -13,7 +13,8 @@ export default function BlogPostListTemplate({ data, pageContext }) {
         {pages.map(page => {
           return (
             <li>
-              <Link to={page.path}>{page.title}</Link> - published {page.date}
+              <Link to={`blog/${page.path}`}>{page.title}</Link> - published{" "}
+              {page.date}
             </li>
           )
         })}
