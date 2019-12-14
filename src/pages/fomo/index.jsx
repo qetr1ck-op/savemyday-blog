@@ -35,7 +35,7 @@ const FomoPages = () => {
         {fomoList.map(({ frontmatter: { title, path } }) => {
           return (
             <li key={title}>
-              <Link to={`${path}`}>{title}</Link>
+              <Link to={`/${path}`}>{title}</Link>
             </li>
           )
         })}
