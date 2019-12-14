@@ -13,6 +13,7 @@
     "gatsby-plugin-offline": "^2.2.1",
     "gatsby-plugin-react-helmet": "^3.1.0",
     "gatsby-plugin-sharp": "^2.2.3",
+    "gatsby-plugin-typescript": "^2.1.23",
     "gatsby-source-filesystem": "^2.1.14",
     "gatsby-transformer-remark": "^2.6.18",
     "gatsby-transformer-sharp": "^2.2.1",
@@ -20,9 +21,15 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "source-map-support": "^0.5.16",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
   },
   "devDependencies": {
+    "@types/node": "^12.12.17",
+    "@types/react": "^16.9.16",
+    "@types/react-dom": "^16.9.4",
     "nodemon": "^2.0.2",
     "prettier": "^1.18.2"
   },
@@ -32,7 +39,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "develop": "nodemon --watch gatsby-* --exec 'gatsby develop'",
+    "develop": "nodemon --watch gatsby-node.js --ext js,ts --exec 'gatsby develop'",
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",

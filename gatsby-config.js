@@ -13,6 +13,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     "gatsby-transformer-remark",
     "gatsby-plugin-netlify-cms",
+    "gatsby-plugin-typescript",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
