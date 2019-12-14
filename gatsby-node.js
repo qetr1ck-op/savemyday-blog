@@ -115,11 +115,10 @@ const createFomoPages = async ({ actions, graphql, reporter }) => {
     return
   }
   const pages = result.data.allMarkdownRemark.nodes
-  const pageRelativePath = "fomo"
 
   pages.forEach(node => {
     createPage({
-      path: `${pageRelativePath}/${node.frontmatter.path}`,
+      path: node.frontmatter.path,
       component: blogPostTemplate,
       context: {
         slug: node.fields.slug,
