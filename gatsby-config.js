@@ -1,4 +1,4 @@
-const { join } = require("path")
+const { join, resolve } = require("path")
 
 module.exports = {
   siteMetadata: {
@@ -13,6 +13,7 @@ module.exports = {
     `gatsby-plugin-sharp`,
     "gatsby-transformer-remark",
     "gatsby-plugin-netlify-cms",
+    "gatsby-plugin-typescript",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -29,14 +30,21 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: join(__dirname, "src", "images"),
+        path: join(__dirname, "src/images"),
       },
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `pages`,
-        path: join(__dirname, "src", "static", "pages"),
+        name: `blog-pages`,
+        path: join(__dirname, "src/pages/blog"),
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `fomo-pages`,
+        path: join(__dirname, "src/pages/fomo"),
       },
     },
   ],
